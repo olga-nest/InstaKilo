@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "ONECollectionViewCell.h"
+#import "ONEHeaderCollectionReusableView.h"
 
 @interface ViewController () <UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -39,11 +40,8 @@
         self.defaultLayout.minimumInteritemSpacing = 15;  // Minimum horizontal spacing between cells
         self.defaultLayout.minimumLineSpacing = 10;  // Minimum vertical spacing
         
-        // By default, direction is vertical
-        //self.simpleLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        
-        // Add this line so headers will appear. If this line is not present, headers will not appear
-        //self.simpleLayout.headerReferenceSize = CGSizeMake(50, self.collectionView.frame.size.height);
+        self.defaultLayout.headerReferenceSize = CGSizeMake(self.collectionView.frame.size.width, 35);
+    
         
         // Add this line so footers will appear. If this line is not present, footers will not appear
         //self.simpleLayout.footerReferenceSize = CGSizeMake(30, self.collectionView.frame.size.height);
@@ -58,7 +56,7 @@
 //    }
     
     NSMutableArray *tempArr = [[NSMutableArray alloc] init];
-    for (int i = 1; i <= 13; i++) {
+    for (int i = 1; i <= 10; i++) {
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%i", i]];
         [tempArr addObject:image];
     }
@@ -70,24 +68,38 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    return 13;
+    return 10;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    ONECollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imageId" forIndexPath:indexPath];
-    
-   // NSInteger *index = indexPath.row;
-    
+    ONECollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imageCellId" forIndexPath:indexPath];
+        
     cell.imageView.image = [self.imagesArr objectAtIndex:indexPath.row];
+    cell.imageView.backgroundColor = [UIColor greenColor];
     
     
     return cell;
 }
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        ONEHeaderCollectionReusableView *headerView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                                           withReuseIdentifier:@"headerId"
+                                                                                  forIndexPath:indexPath];
+        headerView.label.text = @"Cats";
+        return headerView;
+    } else {
+        return nil;
+        }
+    }
 
 @end
