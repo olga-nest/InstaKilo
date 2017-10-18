@@ -67,7 +67,7 @@
 
 -(void)createDogsArray {
     NSMutableArray *tempArr = [[NSMutableArray alloc] init];
-    for (int i = 11; i <= 13; i++) {
+    for (int i = 11; i <= 14; i++) {
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%i", i]];
         [tempArr addObject:image];
     }
@@ -109,11 +109,18 @@
         ONEHeaderCollectionReusableView *headerView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                                                                            withReuseIdentifier:@"headerId"
                                                                                   forIndexPath:indexPath];
-        headerView.label.text = @"Cats";
-        return headerView;
+        
+                if ([self.arrayOfArrays objectAtIndex:indexPath.section] == self.catsArr) {
+                    headerView.label.text = @"Cats";
+                    return headerView;
+                } else if ([self.arrayOfArrays objectAtIndex:indexPath.section] == self.dogsArr) {
+                    headerView.label.text = @"Dogs";
+                    return headerView;
+                }
     } else {
      return nil;
         }
+    return nil;
     }
 
 @end
