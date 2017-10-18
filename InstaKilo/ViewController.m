@@ -15,8 +15,9 @@
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *defaultLayout;
 
-@property (nonatomic, strong) NSArray *imagesArr;
-
+@property (nonatomic, strong) NSArray *arrayOfArrays;
+@property (nonatomic, strong) NSArray *catsArr;
+@property (nonatomic, strong) NSArray *dogsArr;
 @end
 
 @implementation ViewController
@@ -24,7 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.collectionView.dataSource = self;
-    [self createImagesArray];
+    [self createCatsArray];
+    [self createDogsArray];
+    [self createArrayOfArrays];
     [self setupDefaultLayout];
     
     self.collectionView.collectionViewLayout = self.defaultLayout;
@@ -50,38 +53,49 @@
 
 
 
--(void)createImagesArray {
-//    if (!self.imagesArr) {
-//    NSArray *imagesArr =[NSArray new];
-//    }
-    
+-(void)createCatsArray {
     NSMutableArray *tempArr = [[NSMutableArray alloc] init];
     for (int i = 1; i <= 10; i++) {
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%i", i]];
         [tempArr addObject:image];
     }
     
-    self.imagesArr = tempArr.copy;
-    NSLog(@"Objects in imagesArr: %lu", (unsigned long)self.imagesArr.count);
-    
+    self.catsArr = tempArr.copy;
+    NSLog(@"Objects in catsArr: %lu", (unsigned long)self.catsArr.count);
 }
+
+
+-(void)createDogsArray {
+    NSMutableArray *tempArr = [[NSMutableArray alloc] init];
+    for (int i = 11; i <= 13; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%i", i]];
+        [tempArr addObject:image];
+    }
+    self.dogsArr = tempArr.copy;
+    NSLog(@"Objects in dogsArr: %lu", (unsigned long)self.dogsArr.count);
+}
+
+-(void)createArrayOfArrays {
+    self.arrayOfArrays = @[self.catsArr, self.dogsArr];
+    NSLog(@"Objects in arrayOfArrays: %lu", (unsigned long)self.arrayOfArrays.count);
+}
+
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 2;
+    return self.arrayOfArrays.count;
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return [[self.arrayOfArrays objectAtIndex:section]count];
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     ONECollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imageCellId" forIndexPath:indexPath];
         
-    cell.imageView.image = [self.imagesArr objectAtIndex:indexPath.row];
-    cell.imageView.backgroundColor = [UIColor greenColor];
+    cell.imageView.image = [self.arrayOfArrays[indexPath.section] objectAtIndex:indexPath.row];
     
     
     return cell;
@@ -98,7 +112,7 @@
         headerView.label.text = @"Cats";
         return headerView;
     } else {
-        return nil;
+     return nil;
         }
     }
 
