@@ -35,8 +35,6 @@
     self.inLocationView = NO;
     [super viewDidLoad];
     self.collectionView.dataSource = self;
-//    [self createCatsArray];
-//    [self createDogsArray];
     [self createSubjectArray];
     [self createLocationArrays];
     [self createArrayOfArrays];
@@ -56,10 +54,6 @@
         self.defaultLayout.minimumLineSpacing = 10;  // Minimum vertical spacing
         
         self.defaultLayout.headerReferenceSize = CGSizeMake(self.collectionView.frame.size.width, 35);
-    
-        
-        // Add this line so footers will appear. If this line is not present, footers will not appear
-        //self.simpleLayout.footerReferenceSize = CGSizeMake(30, self.collectionView.frame.size.height);
     
 }
 
