@@ -19,6 +19,10 @@
 @property (nonatomic, strong) NSArray *arrayWithAllObjects;
 @property (nonatomic, strong) NSArray *catsArr;
 @property (nonatomic, strong) NSArray *dogsArr;
+@property (nonatomic, strong) NSArray *paloAltoArr;
+@property (nonatomic, strong) NSArray *sanJoseArr;
+
+
 @end
 
 @implementation ViewController
@@ -28,7 +32,7 @@
     self.collectionView.dataSource = self;
     [self createCatsArray];
     [self createDogsArray];
-    [self createArrayWithAllObjects];
+    [self createLocationArrays];
     [self createArrayOfArrays];
     [self setupDefaultLayout];
     
@@ -82,9 +86,32 @@
     NSLog(@"Objects in arrayOfArrays: %lu", (unsigned long)self.arrayOfArrays.count);
 }
 
--(void)createArrayWithAllObjects {
+-(void)createLocationArrays {
+    
+    //create array with all objects
     self.arrayWithAllObjects = [self.catsArr arrayByAddingObjectsFromArray: self.dogsArr];
     NSLog(@"Objects in arrayWithAllObjects: %lu", (unsigned long)self.arrayWithAllObjects.count);
+    
+    NSMutableArray *temp1Arr = [NSMutableArray new];
+    NSMutableArray *temp2Arr = [NSMutableArray new];
+    
+    //create two arrays based on index odd or even
+        int i;
+        for (i = 0; i < [self.arrayWithAllObjects count]; i++) {
+            UIImage *image = [self.arrayWithAllObjects objectAtIndex:i];
+            if (i % 2 == 0) {
+                [temp1Arr addObject:image];
+            } else {
+                [temp2Arr addObject:image];
+            }
+        }
+    
+    self.paloAltoArr = temp1Arr;
+    self.sanJoseArr = temp2Arr;
+    
+    NSLog(@"Objects in paloAltoArr: %lu", (unsigned long)self.paloAltoArr.count);
+    NSLog(@"Objects in sanJoseArr: %lu", (unsigned long)self.sanJoseArr.count);
+
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
