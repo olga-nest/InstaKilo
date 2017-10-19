@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UICollectionViewFlowLayout *defaultLayout;
 
 @property (nonatomic, strong) NSArray *arrayOfArrays;
+@property (nonatomic, strong) NSArray *arrayWithAllObjects;
 @property (nonatomic, strong) NSArray *catsArr;
 @property (nonatomic, strong) NSArray *dogsArr;
 @end
@@ -27,6 +28,7 @@
     self.collectionView.dataSource = self;
     [self createCatsArray];
     [self createDogsArray];
+    [self createArrayWithAllObjects];
     [self createArrayOfArrays];
     [self setupDefaultLayout];
     
@@ -80,6 +82,10 @@
     NSLog(@"Objects in arrayOfArrays: %lu", (unsigned long)self.arrayOfArrays.count);
 }
 
+-(void)createArrayWithAllObjects {
+    self.arrayWithAllObjects = [self.catsArr arrayByAddingObjectsFromArray: self.dogsArr];
+    NSLog(@"Objects in arrayWithAllObjects: %lu", (unsigned long)self.arrayWithAllObjects.count);
+}
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
